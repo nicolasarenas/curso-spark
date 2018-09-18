@@ -415,9 +415,32 @@ sum = rdd.reduce(lamda x,y: x + y )
 import org.apache.spark.storage.StorageLevel val result = input.map(x => x * x) result.persist(StorageLevel.DISK_ONLY) println(result.count()) println(result.collect().mkString(","))
 ```
 
+---
+
+# Spark en Cluster
+
+* spark-submit
+
+
+Note:
+
+- se envia la app
+- se lanza el driver invocando a main()
+- el driver le pide al master recursos
+- Se lanzan los ejecutores por el master
+- El driver se ejecuta y envia el trabajko a los ejecutores en forma de tareas
+- si el driver sale o se llama a stop() se liberan los recursoso desde el cluster manager.
+
+* mirar en el libro los parametros que se le pueden pasarl
+
+
 ----
 
+## Componentes de la ejecucion
 
+* Jobs
+* Tasks
+* Stages
 
 
 
