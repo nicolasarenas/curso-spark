@@ -417,6 +417,14 @@ import org.apache.spark.storage.StorageLevel val result = input.map(x => x * x) 
 
 ---
 
+# Ejercicios
+
+* Desde ficheros de log servidor web, sacar errores 404
+* Desde una lista de datos de temperaturas en fahrenheit, convertir a Celsius
+* Sacar la union de dos listas de enteros
+
+---
+
 # Spark en Cluster
 
 * spark-submit
@@ -436,11 +444,25 @@ Note:
 
 ----
 
+
 ## Componentes de la ejecucion
 
 * Jobs
 * Tasks
 * Stages
+
+
+----
+
+Maquinas
+
+| usuario| master        | worker         |  
+| alicia | 172.20.126.13 | 172.20.126.186 |  
+| carlos | 172.20.126.183| 172.20.126.184 |  
+| juan   | 172.20.127.97 | 172.20.126.177 |
+| david  | 172.20.126.178| 172.20.126.181 |
+| natalia| 172.20.127.95 | 172.20.126.182 |
+| juanma | 172.20.126.179| 172.20.126.180 |
 
 
 
@@ -449,6 +471,41 @@ Note:
 
 
 ---
+
+# Spark SQL
+
+* Permite trabajar con datos structurados y semiestructurados.
+- Provee abstracción en todas las API que permite trabajar con datasets estructurados.
+- Puede leer y escribir datos en multiples formatos
+- Permite usar SQL para interrogar datos.
+
+
+Note:
+
+* Formatos como Hive, Json y Parquet.
+* Puede usar conectores como JDBC/ODBC o herramientas de BI como Tableau.
+* Por debajo, se basa en una extensión de RDD que se llaman Dataframes.
+
+----
+
+## Dataframes.
+
+* Se componen de un RDD de Row objects.
+* Conocen el esquema
+
+
+Note:
+
+* Cada Row object representa un registro.
+* Al conocer el esquema, proveen operaciones que un Dataframe nativo no puede dar, como la posibilidad de ejecutar consultas SQL.
+
+---
+
+## Enlazar Spark con Spark SQL.
+
+* Usar Spark SQL requiere dependencias adicionales.
+* El lenguage recomendado para trabajar con Spark SQL es HQL (HiveContext), la alternativa es trabajar con SQLContext.
+
 
 
 
