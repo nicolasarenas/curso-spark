@@ -1,4 +1,21 @@
 # Introducción
+----
+
+
+## Contexto
+
+* Telefónica.
+* Platafforma NGBI montada por Vaas.
+* Soporte tercer nivel.
+
+![Pizarra Movistar](images/pizarramovistar.jpg)
+
+----
+## Temario.
+
+- Introducción y Conceptos Spark
+- Montaje Stack nginx , Spark y Kafka para analisis
+- Radanalytics.io (Spark + Openshift)
 
 ---
 
@@ -12,7 +29,9 @@
  * Consultas interactivas
 
 Note:
-test note
+
+* Extiende Mapreduce, con cosas como queries interactivas y proceso en streaming.
+* Posibilidad e realizar computo en memoria.
 
 ---
 
@@ -35,8 +54,6 @@ Note:
 * Stack unificado, Spark es motor de computo responsable de distribuir, monitorizar y agendar aplicaciones que consisten en varias tareas de computo entre diferentes nodos
 * Estos nodos se llaman workers.
 * El nodo que se encarga de saber  como está todo se llama Master.
-
-
 
 
 ----
@@ -352,10 +369,70 @@ lines = sc.parallelize(["hello world", "hi"])
 words = lines.flatMap(lambda line: line.split(" "))
 words.first() # returns "hello"s
 ```
+----
+
+### Operaciones con conjuntos
+
+* Union , Intersecciones ...
+* Todos los RDD del mismo tipo.
+*
+Note:
+
+* La operación de distinct es muy cara, porque tiene que enviar todos los datos por la red.
+* union
+* intersection --> mucho más cara que union.  
+* substract()
+* cartesian()
+
+Funcion|Descripcion|Ejemplo|Resultado
+map()|Apply a function to each element in the RDD and return an RDD of the result.|rdd.map(lambda x: x + 1)|{2,3,4,4}
+flatMap()|Apply a function to each element in the RDD and return an RDD of the contents of the iterators returned. Often used to extract words.|rdd.flatMap(lambda x:  x**3) |{1,2,3,2, 3, 3, 3}
+filter()|Return an RDD consisting of only elements that pass the condition passed tofilter().|rdd.filter(x => x != 1)|{2, 3, 3}
+distinct()|Remove duplicates.|{1, 2, 3}
+sample(withRe placement, frac tion, [seed])|Sample an RDD, with or without replacement.|rdd.distinct() rdd.sample(false, 0.5)|Nondeterministic
+
+----
+
+### Acciones
+
+* reduce
+```
+sum = rdd.reduce(lamda x,y: x + y )
+```
+
+----
+
+### Persistencia  
+
+| Level | Space Used | CPU Time | In Memory | On Disk |
+| MEMORY_ONLY | H | L | Y | N |
+| MEMORY_ONLY_SER | L | H | Y  | N |
+| MEMORY_AND_DISK | H | M | Some | Some |
+| MEMORY_AND_DISK_SER | L | H | Some | some |
+| DISK_ONLY | L | H | N | Y |
+
+```
+import org.apache.spark.storage.StorageLevel val result = input.map(x => x * x) result.persist(StorageLevel.DISK_ONLY) println(result.count()) println(result.collect().mkString(","))
+```
+
+----
+
+
+
+
+
+
+
+
+
 ---
 
 
 
+
+
+
+---
 
 
 Rendimiento Spark .
