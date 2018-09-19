@@ -472,6 +472,8 @@ Maquinas
 
 ---
 
+
+
 # Spark SQL
 
 * Permite trabajar con datos structurados y semiestructurados.
@@ -488,18 +490,6 @@ Note:
 
 ----
 
-## Dataframes.
-
-* Se componen de un RDD de Row objects.
-* Conocen el esquema
-
-
-Note:
-
-* Cada Row object representa un registro.
-* Al conocer el esquema, proveen operaciones que un Dataframe nativo no puede dar, como la posibilidad de ejecutar consultas SQL.
-
----
 
 ## Enlazar Spark con Spark SQL.
 
@@ -514,10 +504,104 @@ from pyspark.sql import SQLContext, Row
 ```
 
 
+----
+
+## Dataframes.
+
+* Se componen de un RDD de Row objects.
+* Conocen el esquema.
+* Permiten acceder al RDD mediante el metodo rdd()
+![Tabla metodos sql](images/sql1.png)
 
 
 
----
+Note:
+
+* Cada Row object representa un registro.
+* Al conocer el esquema, proveen operaciones que un Dataframe nativo no puede dar, como la posibilidad de ejecutar consultas SQL.
+* Un Dataframe viene a ser lo mismo que una tabla.
+* Se puede registar cualquier dataframe como una tabla temporal para consultarlo posteriormente.
+* Los dataframes conoces los tipos de las columnas con las que se trabaja.
+
+----
+
+## Salvar y guardar datos.
+
+* Hive
+* Json
+* Parquet files
+
+Note:
+* En examples hay datos en todos los formatos
+
+----
+
+## Apache Hive
+
+```
+from pyspark.sql import HiveContext
+hiveCtx = HiveContext(sc)
+rows = hiveCtx.sql("SELECT key, value FROM mytable") keys = rows.map(lambda row: row[0])
+```
+
+----
+
+## Parquet
+
+* Spark SQL tiene una API basada en plugins
+
+```
+rows = hiveCtx.load(parquetFile, "parquet") names = rows.map(lambda row: row.name) print "Everyone"
+print names.collect()
+
+```
+
+
+----
+
+
+## JSON
+```
+import os
+import sys
+from pyspark import SparkContext, SparkFiles
+from pyspark import  SQLContext, Row
+
+
+conf = SparkConf().setMaster("spark://spark:7077").setAppName("Streaming-app")
+sc = SparkContext(conf = conf)
+
+files = SparkFiles.get()
+print (files)
+sqlc = SQLContext(sc)
+
+print (str(sys.argv))
+filename = sys.argv[0]
+
+input = spark.read.json(filename)
+input.show()
+```
+
+----
+
+## Funciones definidas por el usuario.
+
+* Registro de funciones para ser llamadas dentro de SQL.
+
+```
+# Import the IntegerType we are returning
+from pyspark.sql.types import IntegerType
+# Make a UDF to tell us how long some text is hiveCtx.registerFunction("strLenPython", lambda x: len(x), IntegerType()) lengthDataFrame = hiveCtx.sql("SELECT strLenPython('text') FROM tweets LIMIT 10")
+```
+
+----
+
+## Tunnig Spark SQL
+
+![Opciones rendimiento SQL](images/sql2.png)
+
+
+---- 
 
 
 Rendimiento Spark .
