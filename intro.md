@@ -506,7 +506,12 @@ Note:
 * Usar Spark SQL requiere dependencias adicionales.
 * El lenguage recomendado para trabajar con Spark SQL es HQL (HiveContext), la alternativa es trabajar con SQLContext.
 
-
+```
+# Import Spark SQL
+from pyspark.sql import HiveContext, Row
+# Or if you can't include the hive requirements
+from pyspark.sql import SQLContext, Row
+```
 
 
 
