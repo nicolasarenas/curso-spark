@@ -601,8 +601,89 @@ from pyspark.sql.types import IntegerType
 ![Opciones rendimiento SQL](images/sql2.png)
 
 
----- 
+---
 
+# Tunning Spark
+
+----
+## Configuración con SparkConf
+
+* SparkConf o spark-submit
+```
+# Construct a conf
+conf = new SparkConf()
+conf.set("spark.app.name", "My Spark App") conf.set("spark.master", "local[4]") conf.set("spark.ui.port", "36000") # Override the default port
+# Create a SparkContext with this configuration
+sc = SparkContext(conf)
+```
+
+Note:
+
+* Preferencia codigo sobre spark-submit
+
+----
+
+##  Opciones de configuracion (I)
+
+![conf1](images/tunning1.png)
+
+----
+## Opciones de configuracion (I)
+
+![conf2](images/tunning2.png)
+
+----
+
+## Componentes de la ejecución
+
+* Jobs
+* Tasks
+* Stages
+
+----
+
+## Ejemplo de ejecucion
+
+* toDebugString()
+![conf3](images/tunning3.png)
+
+Note:
+
+----
+
+# Consideraciones clave de Rendimiento
+
+----
+
+## Paralelismo
+
+* Los RDD se parten en cada ejecutor
+* Si hay poco nivel de paralelismo Spark no va a estar ocupado, 30 tasks en 1000 cores
+* Si el nivel de paralelismo es demasiado alto, el overhead que se produce puede ser significante.
+
+Note:
+
+* Control de paralelismo:
+ * Durante Operaciones que mezclan datos. repartition() o coalesce()
+
+
+----
+
+# Formato de serializacion
+
+* Java Built-in
+* Kryo  
+
+----
+
+# Gestion de memoria
+
+* La memoria se usa para
+ * Almacenamiento de los RDD
+ * Operaciones de mezcla y buffers de agregacion
+ * Codigo de usuario
+
+----
 
 Rendimiento Spark .
 https://spoddutur.github.io/spark-notes/distribution_of_executors_cores_and_memory_for_spark_application.html
